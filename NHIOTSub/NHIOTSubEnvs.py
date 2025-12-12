@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
-load_dotenv("./NHIOTArtefactSub/.env")
-class NHIOTArtefactSubEnvs:
+load_dotenv("./NHIOTSub/.env")
+class NHIOTSubEnvs:
     GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
     OWNER = os.getenv("OWNER")
     REPO = os.getenv("REPO")

@@ -4,23 +4,23 @@ import subprocess
 import zipfile
 import requests
 import time
-from NHIOTArtefactSub.NHIOTArtefactSubEnvs import NHIOTArtefactSubEnvs
+from NHIOTSub.NHIOTSubEnvs import NHIOTSubEnvs
 import time
 from NHIOTMQTT import NHIOTMQTT
 
 # --- Configuration ---
-class NHIOTArtefactSub:
+class NHIOTSub:
     def __init__(self):
         self.headers = {
-            "Authorization": f"token {NHIOTArtefactSubEnvs.GITHUB_TOKEN}",
+            "Authorization": f"token {NHIOTSubEnvs.GITHUB_TOKEN}",
             "Accept": "application/vnd.github+json"
         }
-        self.url = f"https://api.github.com/repos/{NHIOTArtefactSubEnvs.OWNER}/{NHIOTArtefactSubEnvs.REPO}/actions/workflows/{NHIOTArtefactSubEnvs.WORKFLOW_ID}/runs"
-        client = NHIOTMQTT()
-        client.connect()
+        self.url = f"https://api.github.com/repos/{NHIOTSubEnvs.OWNER}/{NHIOTSubEnvs.REPO}/actions/workflows/{NHIOTSubEnvs.WORKFLOW_ID}/runs"
+        self.client = NHIOTMQTT()
+        self.client.connect()
     def get_latest_workflow_run(self):
         
-        params = {"branch": NHIOTArtefactSubEnvs.BRANCH, "per_page": 1}
+        params = {"branch": NHIOTSubEnvs.BRANCH, "per_page": 1}
         response = requests.get(self.url, headers=self.headers, params=params)
         response.raise_for_status()
         runs = response.json()["workflow_runs"]
@@ -28,7 +28,7 @@ class NHIOTArtefactSub:
             return runs[0]
         return None
     def get_all_artefacts(self,run_id):
-        url = f"https://api.github.com/repos/{NHIOTArtefactSubEnvs.OWNER}/{NHIOTArtefactSubEnvs.REPO}/actions/runs/{run_id}/artifacts"
+        url = f"https://api.github.com/repos/{NHIOTSubEnvs.OWNER}/{NHIOTSubEnvs.REPO}/actions/runs/{run_id}/artifacts"
         response = requests.get(url, headers=self.headers)
         response.raise_for_status()
         artifacts = response.json()["artifacts"]
@@ -55,8 +55,11 @@ class NHIOTArtefactSub:
         file_path = f"{extract_path}/{name}"
         return file_path
 
-    def run_artifact(self,):
-        subprocess.run()
+    def run_artifact(self,file_path):
+        os.chmod(file_path, 0o755)
+        result = subprocess.run([file_path], capture_output=True, text=True)
+        print("STDOUT:", result.stdout)
+        print("STDERR:", result.stderr)
 
     def monitor_workflow(self):
         print("Monitoring workflow...")
@@ -66,7 +69,10 @@ class NHIOTArtefactSub:
             print(f"[SUBSCRIBED] Topic: {topic} — Message: {payload.decode('utf-8')}")
 
 
-        # subscribe_result = client.subscribe(on_message_received)
+        self.client.subscribe(on_message_received,topic="machineB/recv")
+
+        
+
         try:
             while True:
                 run = self.get_latest_workflow_run()
@@ -83,11 +89,13 @@ class NHIOTArtefactSub:
                         # "artifacts_url"
                         artifacts = self.get_all_artefacts(run_id)
                         artifact = artifacts[0]
-                        self.download_artifact(artifact)
-                        # TODO Aafter this you would instal the app according to the 
+                        file_path = self.download_artifact(artifact)
+                        
+                        self.run_artifact(file_path) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
                         print(f"Workflow finished with conclusion: {conclusion}")
+                        self.client.publish("success",topic="machineA/recv")
                         return conclusion
-                    time.sleep(int(NHIOTArtefactSubEnvs.POLL_INTERVAL))
+                    time.sleep(int(NHIOTSubEnvs.POLL_INTERVAL))
         except KeyboardInterrupt:
             print("[SUBSCRIBER] Disconnecting...")
             #disconnect_future = client.disconnect()

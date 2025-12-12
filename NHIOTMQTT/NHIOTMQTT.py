@@ -11,7 +11,6 @@ class NHIOTMQTT:
         self.CA_FILE = NHIOTEnvs.CA_FILE
         self.CERT_FILE = NHIOTEnvs.CERT_FILE
         self.PRIVATE_KEY_FILE = NHIOTEnvs.PRIVATE_KEY_FILE
-        self.TOPIC = NHIOTEnvs.TOPIC
         self.QOS = mqtt.QoS.AT_LEAST_ONCE
 
         # Unique client ID
@@ -39,31 +38,31 @@ class NHIOTMQTT:
         if verbose:
             print("Connected!")
 
-    def subscribe(self, callback,verbose=True) -> Any:
+    def subscribe(self,callback,topic="test/topic",verbose=True) -> Any:
         """Subscribe to a topic"""
         if not self.mqtt_connection:
             raise RuntimeError("MQTT client not connected")
         if verbose:
-            print(f"Subscribing to topic '{self.TOPIC}'...")
+            print(f"Subscribing to topic '{topic}'...")
         subscribe_future, _ = self.mqtt_connection.subscribe(
-            topic=self.TOPIC,
+            topic=topic,
             qos=self.QOS,
             callback=callback
         )
         subscribe_result = subscribe_future.result()
         if verbose: 
-            print(f"Subscribed to topic '{self.TOPIC}'")
+            print(f"Subscribed to topic '{topic}'")
         return subscribe_result
  
         
 
-    def publish(self, message,verbose=True):
+    def publish(self, message,topic="test/topic",verbose=True):
         """Publish a message to the topic"""
         if not self.mqtt_connection:
             raise RuntimeError("MQTT client not connected")
         if verbose:
-            print(f"[PUBLISHING] Topic: {self.TOPIC} — Message: {message}")
-        self.mqtt_connection.publish(topic=self.TOPIC, payload=message, qos=self.QOS)
+            print(f"[PUBLISHING] Topic: {topic} — Message: {message}")
+        self.mqtt_connection.publish(topic=topic, payload=message, qos=self.QOS)
         if verbose: 
             print(f"Published message: {message}")
 
