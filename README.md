@@ -8,6 +8,7 @@ Then run the publisher which will be the main device. This would be the admin th
 ```
 python -m unittest NHUnitPub.py
 ```
+
 ## Data Pipeline
 
 1. Create aretefact 
@@ -22,3 +23,5 @@ https://chatgpt.com/c/693c1e00-27fc-832c-99c4-f8de3b7067cd
 
 # TODO
 1. Subscriber, Publisher, Build Executable and Run Executable works. Now just kwargs for function name in C file and args for parameters then validation in unittest then data collection.
+
+This is not in the position to be able to be run from other machines yet because of the aws iot permissions and github tokens.
