@@ -23,5 +23,5 @@ jobs:
     - name: Upload executable as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: hello_arm64-aarch64
+        name: hello_arm64
         path: hello_arm64

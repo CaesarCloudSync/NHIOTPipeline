@@ -2,3 +2,6 @@ AWSMqtt/keys/
 
 AWSMqtt/outputs/
 venv/
+Executables/
+*.json
+*.env
