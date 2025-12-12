@@ -1,0 +1,28 @@
+name: Build C Executable (aarch64)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install cross-compilation tools
+      run: sudo apt-get update && sudo apt-get install -y build-essential gcc-aarch64-linux-gnu
+
+    - name: Compile C program for Raspberry Pi (64-bit)
+      run: |
+        # Compile all C files in Artefact folder
+        aarch64-linux-gnu-gcc -o hello_arm64 Artefact/hello.c
+
+    - name: Upload executable as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: hello_arm64-aarch64
+        path: hello_arm64
