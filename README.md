@@ -19,3 +19,6 @@ python -m unittest NHUnitPub.py
 https://chatgpt.com/c/693c1e00-27fc-832c-99c4-f8de3b7067cd
 
 
+
+# TODO
+1. Subscriber, Publisher, Build Executable and Run Executable works. Now just kwargs for function name in C file and args for parameters then validation in unittest then data collection.
