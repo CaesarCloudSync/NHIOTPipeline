@@ -67,11 +67,15 @@ class NHIOTSub:
         # === Subscribe handler ===
         def on_message_received(topic, payload, **kwargs):
             print(f"[SUBSCRIBED] Topic: {topic} — Message: {payload.decode('utf-8')}")
+            print("TODO This is where I would collect the function name and arguments from the Pub Unittest. I just need to parse kwargs now to run the functions in the C file.")
+            self.run_artifact(file_path) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
+            print(f"Workflow finished with conclusion: {conclusion}")
+            self.client.publish("success",topic="machineA/recv")
 
-
-        self.client.subscribe(on_message_received,topic="machineB/recv")
 
         
+
+        downloaded = False
 
         try:
             while True:
@@ -85,16 +89,16 @@ class NHIOTSub:
                     status = run["status"]  # 'queued', 'in_progress', 'completed'
                     conclusion = run.get("conclusion")  # 'success', 'failure', etc.
                     print(f"Workflow {name} {run_id} {head_branch} status: {status}, conclusion: {conclusion}")
-                    if status == "completed":
+                    if status == "completed" and downloaded == False:
                         # "artifacts_url"
                         artifacts = self.get_all_artefacts(run_id)
                         artifact = artifacts[0]
                         file_path = self.download_artifact(artifact)
                         
-                        self.run_artifact(file_path) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
-                        print(f"Workflow finished with conclusion: {conclusion}")
-                        self.client.publish("success",topic="machineA/recv")
-                        return conclusion
+                        self.client.subscribe(on_message_received,topic="machineB/recv")
+                        downloaded = True
+
+                        #return conclusion
                     time.sleep(int(NHIOTSubEnvs.POLL_INTERVAL))
         except KeyboardInterrupt:
             print("[SUBSCRIBER] Disconnecting...")

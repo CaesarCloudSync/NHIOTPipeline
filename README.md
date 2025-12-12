@@ -1,4 +1,14 @@
-# Data Pipeline
+# NHIOT Pipeline
+
+To start run the subscriber which would be the Raspberry Pi or IOT. 
+```
+python main.py
+```
+Then run the publisher which will be the main device. This would be the admin that wants to test the executable from a distance with unittests.
+```
+python -m unittest NHUnitPub.py
+```
+## Data Pipeline
 
 1. Create aretefact 
 2. Upload artefact to google cloud storage
@@ -7,3 +17,5 @@
 
 # Create AWS IoT Broker
 https://chatgpt.com/c/693c1e00-27fc-832c-99c4-f8de3b7067cd
+
+
