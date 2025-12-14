@@ -94,14 +94,17 @@ class NHIOTSub:
                     status = run["status"]  # 'queued', 'in_progress', 'completed'
                     conclusion = run.get("conclusion")  # 'success', 'failure', etc.
                     print(f"Workflow {name} {run_id} {head_branch} status: {status}, conclusion: {conclusion}")
-                    if conclusion != "success": # status == "completed" and downloaded == False
+                    if status == "completed" and downloaded == False:
                         # "artifacts_url"
+                        
                         artifacts = self.get_all_artefacts(run_id)
                         artifact = artifacts[0]
                         file_path = self.download_artifact(artifact)
                         
                         self.client.subscribe(on_message_received,topic="machineB/recv")
                         downloaded = True
+                    elif status == "in_progress":
+                        downloaded = False
 
                         #return conclusion
                     time.sleep(int(NHIOTSubEnvs.POLL_INTERVAL))
