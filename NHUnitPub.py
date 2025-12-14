@@ -68,11 +68,11 @@ class NHUnitPub(unittest.TestCase):
             expected_result="3",
         )
 
-    def test_add_negative(self):
+    def test_minus(self):
         self._run_mqtt_test(
-            function_name="add",
-            parameters=[-5, 2],
-            expected_result="-3",
+            function_name="minus",
+            parameters=[5, 2],
+            expected_result="3",
         )
 
     def test_multiply(self):
