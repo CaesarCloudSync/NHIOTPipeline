@@ -9,7 +9,7 @@ void add(int argc, char *argv[]) {
         count += num;
     }
 
-    printf("Add Result: %d\n", count);
+    printf("%d", count);
 }
 
 void minus(int argc, char *argv[]) {
@@ -19,7 +19,7 @@ void minus(int argc, char *argv[]) {
         result -= atoi(argv[i]);
     }
 
-    printf("Minus Result: %d\n", result);
+    printf("%d", result);
 
 
 }
@@ -29,7 +29,7 @@ void multiply(int argc, char *argv[]) {
         int num = atoi(argv[i]);
         count *= num;
     }
-    printf("Multiply Result: %d\n", count);
+    printf("%d", count);
 }
 
 struct entry {

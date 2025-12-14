@@ -60,8 +60,9 @@ class NHIOTSub:
         os.chmod(file_path, 0o755)
         converted_str_paremeters = list(map(str, parameters))
         result = subprocess.run([file_path,function] + converted_str_paremeters, capture_output=True, text=True)
-        print("STDOUT:", result.stdout)
-        print("STDERR:", result.stderr)
+        stdout = result.stdout
+        stderr = result.stderr
+        return stdout,stderr
 
     def monitor_workflow(self):
         print("Monitoring workflow...")
@@ -70,12 +71,11 @@ class NHIOTSub:
         def on_message_received(topic, payload, **kwargs):
             payload_json = json.loads(payload.decode('utf-8'))
             print(f"[SUBSCRIBED] Topic: {topic} — Message: {payload_json}")
-            print("TODO This is where I would collect the function name and arguments from the Pub Unittest. I just need to parse kwargs now to run the functions in the C file.")
             function = payload_json.get("function","")
             parameters = payload_json.get("parameters",[])
-            self.run_artifact(file_path,function,parameters) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
+            stdout,stderr = self.run_artifact(file_path,function,parameters) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
+            self.client.publish(json.dumps({"result":stdout,"error":stderr}),topic="machineA/recv")
             print(f"Workflow finished with conclusion: {conclusion}")
-            self.client.publish("success",topic="machineA/recv")
 
 
         

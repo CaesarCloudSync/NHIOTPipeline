@@ -17,7 +17,7 @@ class NHUnitPub(unittest.TestCase):
         cls.client.disconnect()
 
     def test_add_positive(self):
-        expected = "success"
+        expected = "3"
 
         # === Subscribe handler ===
         def on_message_received(topic, payload, expected_value):
