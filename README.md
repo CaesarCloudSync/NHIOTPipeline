@@ -1,13 +1,13 @@
 # NHIOT Pipeline
-
-To start first build the artifact with:
-```
-./build_artifact.sh
-```
-Then in on terminal run the subscriber which would be the Raspberry Pi or IOT. Make sure that in Github actions the correct aarch/x86_64 compiler is installed.
+To start in on terminal run the subscriber which would be the Raspberry Pi or IOT. Make sure that in Github actions the correct aarch/x86_64 compiler is installed.
 ```
 python NHSub.py
 ```
+Then first build the artifact with this will build the artifact, in the NHSub window it should say "Downloading artifact 'hello_x86'...":
+```
+./build_artifact.sh
+```
+
 Then run the publisher which will be the main device. This would be the admin that wants to test the executable from a distance with unittests.
 ```
 python -m unittest NHUnitPub.py
