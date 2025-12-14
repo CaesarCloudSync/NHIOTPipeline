@@ -94,7 +94,7 @@ class NHIOTSub:
                     status = run["status"]  # 'queued', 'in_progress', 'completed'
                     conclusion = run.get("conclusion")  # 'success', 'failure', etc.
                     print(f"Workflow {name} {run_id} {head_branch} status: {status}, conclusion: {conclusion}")
-                    if status == "completed" and downloaded == False:
+                    if conclusion != "success": # status == "completed" and downloaded == False
                         # "artifacts_url"
                         artifacts = self.get_all_artefacts(run_id)
                         artifact = artifacts[0]
