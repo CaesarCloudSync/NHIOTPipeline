@@ -2,7 +2,7 @@
 
 To start run the subscriber which would be the Raspberry Pi or IOT. 
 ```
-python main.py
+python NHSub.py
 ```
 Then run the publisher which will be the main device. This would be the admin that wants to test the executable from a distance with unittests.
 ```
