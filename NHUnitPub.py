@@ -32,7 +32,7 @@ class NHUnitPub(unittest.TestCase):
 
         # Publish message
         
-        self.client.publish(json.dumps({"function":"foo","parameters":[1,2]}), topic="machineB/recv")
+        self.client.publish(json.dumps({"function":"add","parameters":[1,2]}), topic="machineB/recv")
 
         # Wait for MQTT delivery
         time.sleep(2)  # Adjust if needed

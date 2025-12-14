@@ -1,26 +1,35 @@
 #include <stdio.h>
 #include <string.h>
-
+#include <stdlib.h>
 void add(int argc, char *argv[]) {
-    printf("foo hello\n");
+    
     int count = 0;
     for (int i = 0; i < argc; i++) {
-        count++ argv[i]
+        int num = atoi(argv[i]);
+        count += num;
     }
+
+    printf("Add Result: %d\n", count);
 }
 
 void minus(int argc, char *argv[]) {
-    printf("bar\n");
-    for (int i = 0; i < argc; i++) {
-        printf("bar arg[%d] = %s\n", i, argv[i]);
-    }
-}
+    int result = atoi(argv[0]);
 
-void multiply(int argc, char *argv[]) {
-    printf("baz\n");
-    for (int i = 0; i < argc; i++) {
-        printf("baz arg[%d] = %s\n", i, argv[i]);
+    for (int i = 1; i < argc; i++) {
+        result -= atoi(argv[i]);
     }
+
+    printf("Minus Result: %d\n", result);
+
+
+}
+void multiply(int argc, char *argv[]) {
+    int count = 1;
+    for (int i = 0; i < argc; i++) {
+        int num = atoi(argv[i]);
+        count *= num;
+    }
+    printf("Multiply Result: %d\n", count);
 }
 
 struct entry {
@@ -29,9 +38,9 @@ struct entry {
 };
 
 struct entry table[] = {
-    {"add", foo},
-    {"minus", bar},
-    {"multiply", baz},
+    {"add", add},
+    {"minus", minus},
+    {"multiply",multiply},
 };
 
 int main(int argc, char *argv[]) {
