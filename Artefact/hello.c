@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void foo() { printf("foo\n"); }
+void foo() { printf("foo hello \n"); }
 void bar() { printf("bar\n"); }
 void baz() { printf("baz\n"); }
 

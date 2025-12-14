@@ -1,4 +1,5 @@
 import time
+import json
 import unittest
 from functools import partial
 from NHIOTMQTT.NHIOTMQTT import NHIOTMQTT
@@ -30,7 +31,8 @@ class NHUnitPub(unittest.TestCase):
         self.client.subscribe(wrapped, topic="machineA/recv")
 
         # Publish message
-        self.client.publish("run", topic="machineB/recv")
+        
+        self.client.publish(json.dumps({"function":"foo","parameters":[1,2]}), topic="machineB/recv")
 
         # Wait for MQTT delivery
         time.sleep(2)  # Adjust if needed

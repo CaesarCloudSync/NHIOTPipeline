@@ -3,6 +3,7 @@ import os
 import subprocess
 import zipfile
 import requests
+import json
 import time
 from NHIOTSub.NHIOTSubEnvs import NHIOTSubEnvs
 import time
@@ -55,9 +56,9 @@ class NHIOTSub:
         file_path = f"{extract_path}/{name}"
         return file_path
 
-    def run_artifact(self,file_path):
+    def run_artifact(self,file_path,function,**parameters):
         os.chmod(file_path, 0o755)
-        result = subprocess.run([file_path], capture_output=True, text=True)
+        result = subprocess.run([file_path,function], capture_output=True, text=True)
         print("STDOUT:", result.stdout)
         print("STDERR:", result.stderr)
 
@@ -66,9 +67,12 @@ class NHIOTSub:
 
         # === Subscribe handler ===
         def on_message_received(topic, payload, **kwargs):
-            print(f"[SUBSCRIBED] Topic: {topic} — Message: {payload.decode('utf-8')}")
+            payload_json = json.loads(payload.decode('utf-8'))
+            print(f"[SUBSCRIBED] Topic: {topic} — Message: {payload_json}")
             print("TODO This is where I would collect the function name and arguments from the Pub Unittest. I just need to parse kwargs now to run the functions in the C file.")
-            self.run_artifact(file_path) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
+            function = payload_json.get("function","")
+            parameters = payload_json.get("parameters","")
+            self.run_artifact(file_path,function) # TODO This will only work on the Raspberry PI becuase it was built in th AARCH architecture and not AMD.
             print(f"Workflow finished with conclusion: {conclusion}")
             self.client.publish("success",topic="machineA/recv")
 
