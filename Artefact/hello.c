@@ -1,21 +1,22 @@
 #include <stdio.h>
 #include <string.h>
 
-void foo(int argc, char *argv[]) {
+void add(int argc, char *argv[]) {
     printf("foo hello\n");
+    int count = 0;
     for (int i = 0; i < argc; i++) {
-        printf("foo arg[%d] = %s\n", i, argv[i]);
+        count++ argv[i]
     }
 }
 
-void bar(int argc, char *argv[]) {
+void minus(int argc, char *argv[]) {
     printf("bar\n");
     for (int i = 0; i < argc; i++) {
         printf("bar arg[%d] = %s\n", i, argv[i]);
     }
 }
 
-void baz(int argc, char *argv[]) {
+void multiply(int argc, char *argv[]) {
     printf("baz\n");
     for (int i = 0; i < argc; i++) {
         printf("baz arg[%d] = %s\n", i, argv[i]);
@@ -28,9 +29,9 @@ struct entry {
 };
 
 struct entry table[] = {
-    {"foo", foo},
-    {"bar", bar},
-    {"baz", baz},
+    {"add", foo},
+    {"minus", bar},
+    {"multiply", baz},
 };
 
 int main(int argc, char *argv[]) {

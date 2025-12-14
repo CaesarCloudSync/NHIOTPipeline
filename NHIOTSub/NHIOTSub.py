@@ -58,8 +58,8 @@ class NHIOTSub:
 
     def run_artifact(self,file_path,function,parameters=[]):
         os.chmod(file_path, 0o755)
-
-        result = subprocess.run([file_path,function] + parameters, capture_output=True, text=True)
+        converted_str_paremeters = list(map(str, parameters))
+        result = subprocess.run([file_path,function] + converted_str_paremeters, capture_output=True, text=True)
         print("STDOUT:", result.stdout)
         print("STDERR:", result.stderr)
 
