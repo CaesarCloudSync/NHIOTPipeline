@@ -29,7 +29,7 @@ void multiply(int argc, char *argv[]) {
         int num = atoi(argv[i]);
         count *= num;
     }
-    fprintf("%d", count);
+    fprintf(stderr, "add: no arguments provided\n");
 }
 
 struct entry {
