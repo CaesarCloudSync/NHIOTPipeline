@@ -8,3 +8,5 @@ class NHIOTSubEnvs:
     WORKFLOW_ID = os.getenv("WORKFLOW_ID")
     BRANCH = os.getenv("BRANCH")
     POLL_INTERVAL=os.getenv("POLL_INTERVAL")
+    SUBSCRIBER_ARCHITECTURE=os.getenv("SUBSCRIBER_ARCHITECTURE")
+    ARTIFACT_NAME=os.getenv("ARTIFACT_NAME")

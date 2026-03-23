@@ -34,6 +34,15 @@ class NHIOTSub:
         response.raise_for_status()
         artifacts = response.json()["artifacts"]
         return artifacts
+    def choose_artefact(self,artifacts):
+        print(f"{NHIOTSubEnvs.ARTIFACT_NAME}_{NHIOTSubEnvs.SUBSCRIBER_ARCHITECTURE}")
+        artifact = next(
+            filter(lambda a: a["name"] == f"{NHIOTSubEnvs.ARTIFACT_NAME}_{NHIOTSubEnvs.SUBSCRIBER_ARCHITECTURE}", artifacts),
+            None
+        )
+        return artifact
+
+        
     def download_artifact(self,artifact):
         name = artifact["name"]
         download_url = artifact["archive_download_url"]
@@ -98,11 +107,13 @@ class NHIOTSub:
                         # "artifacts_url"
                         
                         artifacts = self.get_all_artefacts(run_id)
-                        artifact = artifacts[0]
-                        file_path = self.download_artifact(artifact)
-                        
-                        self.client.subscribe(on_message_received,topic="machineB/recv")
-                        downloaded = True
+                        #print(artifacts)
+                        artifact = self.choose_artefact(artifacts)
+                        if artifact:
+                            file_path = self.download_artifact(artifact)
+                            
+                            self.client.subscribe(on_message_received,topic="machineB/recv")
+                            downloaded = True
                     elif status == "in_progress":
                         downloaded = False
 
