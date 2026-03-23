@@ -22,9 +22,12 @@ python -m unittest NHUnitPub.py
 5. Unittesting - Testing.
 
 # TODO 
+1. Determine testing metrics like *Mean Time To Repair (MTTR)* and Mean Time Between Failures (MTBF).
+2. Make automated tests and analytics data points for metric making sure it aligns with the brief specifcation.
+3. Refactor the code to be easier.
+4. Make or choose a more complex artifcat or crate more complex functions to unittest for the metrcis and datapoints
+#  TODO Meh
 1. Automate AWSMqtt Authentication and Policy creation process.
-2. Determine testing metrics like *Mean Time To Repair (MTTR)* and Mean Time Between Failures (MTBF).
-
 Here you go, Amari — clear, concrete, numerically measurable testing, analysis, and evaluation methods you can use in your Results & Analysis and Critical Evaluation chapters. These will map cleanly to your OTA-update IoT pipeline project and help you produce strong, evidence‑based results.
 
 I’ll give you:
