@@ -1,6 +1,6 @@
-from NHIOTSub import NHIOTSub
+from NHIOTSub.subscriber import NHIOTSubscriber
 
 
 if __name__ == "__main__":
-    nhsub = NHIOTSub()
+    nhsub = NHIOTSubscriber()
     nhsub.monitor_workflow()
