@@ -35,7 +35,6 @@ class NHIOTSub:
         artifacts = response.json()["artifacts"]
         return artifacts
     def choose_artefact(self,artifacts):
-        print(f"{NHIOTSubEnvs.ARTIFACT_NAME}_{NHIOTSubEnvs.SUBSCRIBER_ARCHITECTURE}")
         artifact = next(
             filter(lambda a: a["name"] == f"{NHIOTSubEnvs.ARTIFACT_NAME}_{NHIOTSubEnvs.SUBSCRIBER_ARCHITECTURE}", artifacts),
             None
