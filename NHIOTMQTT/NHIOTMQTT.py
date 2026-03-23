@@ -43,7 +43,6 @@ class NHIOTMQTT:
 
     def subscribe(self,callback,topic="test/topic",verbose=True) -> Any:
         """Subscribe to a topic"""
-        print(self.mqtt_connection)
         if self.mqtt_connection is None:
             raise RuntimeError("MQTT client not connected")
         if verbose and self.logger:
@@ -62,7 +61,6 @@ class NHIOTMQTT:
 
     def publish(self, message,topic="test/topic",verbose=True):
         """Publish a message to the topic"""
-        print("Pub Connect",self.mqtt_connection)
         if self.mqtt_connection is None:
             raise RuntimeError("MQTT client not connected")
         if verbose and self.logger:
