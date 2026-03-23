@@ -27,9 +27,9 @@ void multiply(int argc, char *argv[]) {
     int count = 1;
     for (int i = 0; i < argc; i++) {
         int num = atoi(argv[i]);
-        count *= num + 1;
+        count *= num;
     }
-    printf("%d", count);
+    fprintf("%d", count);
 }
 
 struct entry {
