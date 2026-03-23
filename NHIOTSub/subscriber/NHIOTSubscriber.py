@@ -3,10 +3,9 @@ from logging import Logger
 import time
 from NHIOTMQTT.NHIOTMQTT import NHIOTMQTT
 from NHIOTSub.clients.GithubClient import GitHubClient
-from NHIOTSub.config import NHIOTSubEnvs
+from NHIOTSub.config import Envs
 from NHIOTSub.executors.Executor import Executor
 from NHIOTSub.handlers.MQTTHandler import MQTTHandler
-from NHIOTSub.security.Headers import Headers
 from NHIOTSub.services.ArtifactService import ArtifactService
 
 
@@ -29,7 +28,7 @@ class NHIOTSubscriber:
 
         self.client.connect()
 
-    def monitor_workflow(self):
+    def monitor_workflow(self) -> None:
         downloaded = False
         file_path = None
 
@@ -44,15 +43,11 @@ class NHIOTSubscriber:
             self.logger.info(f"{run.name} {run.status}")
 
             if run.status == "completed" and not downloaded:
-                artifact_url = (
-                    f"https://api.github.com/repos/"
-                    f"{NHIOTSubEnvs.OWNER}/{NHIOTSubEnvs.REPO}"
-                    f"/actions/runs/{run.id}/artifacts"
-                )
+     
 
-                artifacts = self.github.get_artifacts(artifact_url)
+                artifacts = self.github.get_artifacts(run)
 
-                target = f"{NHIOTSubEnvs.ARTIFACT_NAME}_{NHIOTSubEnvs.SUBSCRIBER_ARCHITECTURE}"
+                target = f"{Envs.ARTIFACT_NAME}_{Envs.SUBSCRIBER_ARCHITECTURE}"
                 artifact = self.artifacts.choose(artifacts, target)
 
                 if artifact:
@@ -68,4 +63,4 @@ class NHIOTSubscriber:
             elif run.status == "in_progress":
                 downloaded = False
 
-            time.sleep(int(NHIOTSubEnvs.POLL_INTERVAL))
+            time.sleep(int(Envs.POLL_INTERVAL))
