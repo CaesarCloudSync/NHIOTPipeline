@@ -1,35 +1,31 @@
 
+from logging import Logger
 import time
+from NHIOTMQTT.NHIOTMQTT import NHIOTMQTT
+from NHIOTSub.clients.GithubClient import GitHubClient
 from NHIOTSub.config import NHIOTSubEnvs
+from NHIOTSub.executors.Executor import Executor
+from NHIOTSub.handlers.MQTTHandler import MQTTHandler
+from NHIOTSub.security.Headers import Headers
+from NHIOTSub.services.ArtifactService import ArtifactService
 
 
 class NHIOTSubscriber:
     def __init__(
         self,
-        github,
-        artifacts,
-        executor,
-        mqtt_client,
-        mqtt_handler,
-        logger,
+        github : GitHubClient,
+        artifacts : ArtifactService,
+        executor :Executor,
+        mqtt_client : NHIOTMQTT,
+        mqtt_handler :MQTTHandler,
+        logger : Logger,
     ):
-        self.github = github
+        self.github = github 
         self.artifacts = artifacts
         self.executor = executor
         self.client = mqtt_client
         self.mqtt = mqtt_handler
         self.logger = logger
-
-        self.headers = {
-            "Authorization": f"token {NHIOTSubEnvs.GITHUB_TOKEN}",
-            "Accept": "application/vnd.github+json"
-        }
-
-        self.workflow_url = (
-            f"https://api.github.com/repos/"
-            f"{NHIOTSubEnvs.OWNER}/{NHIOTSubEnvs.REPO}"
-            f"/actions/workflows/{NHIOTSubEnvs.WORKFLOW_ID}/runs"
-        )
 
         self.client.connect()
 
@@ -38,7 +34,7 @@ class NHIOTSubscriber:
         file_path = None
 
         while True:
-            run = self.github.get_latest_run(self.workflow_url)
+            run = self.github.get_latest_run()
 
             if not run:
                 self.logger.warning("No workflow run")
@@ -60,7 +56,7 @@ class NHIOTSubscriber:
                 artifact = self.artifacts.choose(artifacts, target)
 
                 if artifact:
-                    file_path = self.artifacts.download(artifact, self.headers)
+                    file_path = self.artifacts.download(artifact)
 
                     self.client.subscribe(
                         self.mqtt.handle(file_path),

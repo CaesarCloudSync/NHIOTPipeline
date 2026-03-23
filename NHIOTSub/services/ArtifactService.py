@@ -7,6 +7,7 @@ import zipfile
 import requests
 
 from NHIOTSub.models.dtos import Artifact
+from NHIOTSub.security import Headers
 
 
 class ArtifactService:
@@ -15,10 +16,10 @@ class ArtifactService:
     def choose(self, artifacts: List[Artifact], target_name: str) -> Optional[Artifact]:
         return next((a for a in artifacts if a.name == target_name), None)
 
-    def download(self, artifact: Artifact, headers: dict) -> str:
+    def download(self, artifact: Artifact) -> str:
         self.logger.info(f"Downloading {artifact.name}")
 
-        response = requests.get(artifact.archive_download_url, headers=headers)
+        response = requests.get(artifact.archive_download_url, headers=Headers.github_headers)
         response.raise_for_status()
 
         extract_path = f"./Executables/{artifact.name}"

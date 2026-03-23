@@ -1,6 +1,6 @@
 from NHIOTSub.subscriber import NHIOTSubscriber
 from NHIOTSub.handlers import MQTTHandler
-from container import Container
+from NHIOTSub.container import Container
 from NHIOTMQTT import NHIOTMQTT
 
 

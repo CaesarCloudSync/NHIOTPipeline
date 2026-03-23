@@ -13,10 +13,10 @@ class Container:
         return NHIOTMQTT()
 
     def github_client(self):
-        return GitHubClient(headers=..., logger=self.logger)
+        return GitHubClient()
 
     def executor(self):
-        return Executor(logger=self.logger)
+        return Executor()
     def artifact_service(self):
         return ArtifactService(self.logger)
     def mqtt_handler(self):
