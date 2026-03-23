@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 load_dotenv("./NHIOTMQTT/.env")
-class NHIOTEnvs:
+class Envs:
     ENDPOINT = os.getenv("ENDPOINT")
     CA_FILE = os.getenv("CA_FILE")
     CERT_FILE = os.getenv("CERT_FILE")

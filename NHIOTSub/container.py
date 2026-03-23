@@ -10,7 +10,7 @@ class Container:
     def __init__(self):
         self.logger = create_logger("NHIOT")
     def mqtt_client(self):
-        return NHIOTMQTT()
+        return NHIOTMQTT(self.logger)
 
     def github_client(self):
         return GitHubClient()
