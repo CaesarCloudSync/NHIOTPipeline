@@ -1,7 +1,7 @@
 # NHIOT Pipeline
 To start in on terminal run the subscriber which would be the Raspberry Pi or IOT. Make sure that in Github actions the correct aarch/x86_64 compiler is installed.
 ```
-python NHSub.py
+./run_sub.py
 ```
 Then first build the artifact with this will build the artifact, in the NHSub window it should say "Downloading artifact 'hello_x86'...":
 ```
@@ -10,9 +10,27 @@ Then first build the artifact with this will build the artifact, in the NHSub wi
 
 Then run the publisher which will be the main device. This would be the admin that wants to test the executable from a distance with unittests.
 ```
-python -m unittest NHUnitPub.py
+./run_pub.sh
 ```
 
+When creating a function to test in the C artefact ensure that it prints out to the stdout using:
+```
+printf("add:%d", count);
+```
+For error handling to send an error to the publisher use:
+```
+fprintf(stderr, "add: no arguments provided\n");
+```
+Ensure that  the string is in the format of:
+```
+printf("<function_name>:<result>", count);
+
+```
+and
+```
+fprintf(stderr, "<function_name>:<error_message>");
+
+```
 ## Data Pipeline
 ### Resources used.
 1. AWS IoT Core using MQTT - Cloud Architecture
@@ -24,8 +42,7 @@ python -m unittest NHUnitPub.py
 # TODO 
 1. Determine testing metrics like *Mean Time To Repair (MTTR)* and Mean Time Between Failures (MTBF).
 2. Make automated tests and analytics data points for metric making sure it aligns with the brief specifcation.
-3. Refactor the code to be easier.
-4. Make or choose a more complex artifcat or crate more complex functions to unittest for the metrcis and datapoints
+3. Make or choose a more complex functions in the artifact and parameters and use them for metrics and datapoints
 #  TODO Meh
 1. Automate AWSMqtt Authentication and Policy creation process.
 Here you go, Amari — clear, concrete, numerically measurable testing, analysis, and evaluation methods you can use in your Results & Analysis and Critical Evaluation chapters. These will map cleanly to your OTA-update IoT pipeline project and help you produce strong, evidence‑based results.

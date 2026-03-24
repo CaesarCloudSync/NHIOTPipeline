@@ -1,0 +1,8 @@
+GITHUB_TOKEN = ""
+OWNER = "CaesarCloudSync"
+REPO = "NHIOTPipeline"
+WORKFLOW_ID = "main.yml"  # workflow file name or workflow ID
+BRANCH = "main"
+POLL_INTERVAL=5  # seconds
+SUBSCRIBER_ARCHITECTURE="x86_64" # aarch64
+ARTIFACT_NAME="hello"

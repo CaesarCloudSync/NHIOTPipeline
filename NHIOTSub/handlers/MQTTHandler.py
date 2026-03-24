@@ -24,7 +24,7 @@ class MQTTHandler:
                 cmd.parameters
             )
 
-            response = CommandResponse(result=stdout, error=stderr)
+            response = CommandResponse.from_stdout(stdout=stdout, stderr=stderr)
 
             self.client.publish(response.model_dump_json(), topic="machineA/recv")
 
