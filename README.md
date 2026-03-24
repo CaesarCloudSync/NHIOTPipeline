@@ -31,6 +31,17 @@ and
 fprintf(stderr, "<function_name>:<error_message>");
 
 ```
+## Limitations 
+So far two out of three architectures have been developed for:
+1. Desktop x86_64 
+2. Embedded Linux - Raspbery Pi and ARM devices.
+3. MicroControllers - Can be done but requires refactor from python to C.
+Libraries Needed for Microcontrollers
+1. awscrt Python -> AWS CRT (C Libraries)
+2. awsiot (Python SDK v2) -> AWS IoT Embedded C SDK
+3. requests (Python) -> C Equivalent.
+
+
 ## Data Pipeline
 ### Resources used.
 1. AWS IoT Core using MQTT - Cloud Architecture
