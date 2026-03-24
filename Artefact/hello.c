@@ -9,7 +9,7 @@ void add(int argc, char *argv[]) {
         count += num;
     }
 
-   
+    printf("add:%d", count);
 }
 
 void minus(int argc, char *argv[]) {
