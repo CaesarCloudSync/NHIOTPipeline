@@ -9,7 +9,7 @@ void add(int argc, char *argv[]) {
         count += num;
     }
 
-    fprintf(stderr, "add: no arguments provided\n");
+    fprintf(stderr, "multiply: no arguments provided\n");
 }
 
 void minus(int argc, char *argv[]) {
